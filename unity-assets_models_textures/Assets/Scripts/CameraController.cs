@@ -5,37 +5,39 @@ using UnityEngine.UIElements;
 
 public class CameraController : MonoBehaviour
 {
-    public GameObject player;
-
+    private Transform trsf;
     private Vector3 offset;
 
-    public float mouseSpeed = 4.0f;
+    public GameObject player;
+    public float turnSpeed = 4f;
 
     // Start is called before the first frame update
     void Start()
     {
-        offset = transform.position - player.transform.position;
+        trsf = GetComponent<Transform>();
+        offset = trsf.position - player.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // get mouse input
+        // Rotate the camera base on mouse mouvement
+        offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * turnSpeed, Vector3.up) *
+            Quaternion.AngleAxis(Input.GetAxis("Mouse Y") * turnSpeed, Vector3.left) * offset;
         
-        if(Input.GetMouseButton(1))
+        // Update camera position
+        trsf.position = player.transform.position + offset;
+        transform.LookAt(player.transform.position);
+
+        // Reset camera if player falls
+        if (player.transform.position.y < -10f) // Same threshold as in PLayerController
         {
-            offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * mouseSpeed, Vector3.up) * Quaternion.AngleAxis(Input.GetAxis("Mouse Y") * mouseSpeed, Vector3.left) * offset;
-            transform.position = player.transform.position + offset;
-            transform.LookAt(player.transform.position);
+            ResetCamera();
         }
-        else
-        {
-            transform.position = player.transform.position + offset;
-        }
-        
-        /*
-        offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * mouseSpeed, Vector3.up) * Quaternion.AngleAxis(Input.GetAxis("Mouse Y") * mouseSpeed, Vector3.left) * offset;
-        transform.position = player.transform.position + offset;
-        transform.LookAt(player.transform.position);*/
+    }
+
+    private void ResetCamera()
+    {
+        trsf.position = player.transform.position + offset;
     }
 }

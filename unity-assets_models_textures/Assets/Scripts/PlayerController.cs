@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -5,14 +6,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 5f;
-    public float jumpForce = 5f;
+    public float speed = 6f;
+    public float jumpForce = 7f;
     public bool isGrounded;
 
     private Rigidbody rb;
+    private Vector3 startPosition; //store the start position player
+    private float fallThreshold = -10f; // Y-coordinate below which the player resets
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        startPosition = transform.position; // Store the initial poisiton
     }
 
     void Update()
@@ -29,7 +33,20 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false; // Set isGrounded to false after jumping
         }
+
+        // Check if the player has fallen below the threshold
+        if (transform.position.y < fallThreshold)
+        {
+            ResetPlayer();
+        }
         
+    }
+
+    // Reset Player to start position
+    private void ResetPlayer()
+    {
+        rb.velocity = Vector3.zero; // Reset velocity to avoid carrying momentum
+        transform.position = startPosition;
     }
 
     // check if player is landed
