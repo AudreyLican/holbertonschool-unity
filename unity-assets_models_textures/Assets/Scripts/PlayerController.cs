@@ -13,10 +13,22 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Vector3 startPosition; //store the start position player
     private float fallThreshold = -10f; // Y-coordinate below which the player resets
+
+    // Refer to Timer script
+    private Timer timer;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         startPosition = transform.position; // Store the initial poisiton
+
+        // Get the Timer component
+        timer = GetComponent<Timer>();
+
+        // Ensure timer is desabled at start
+        if (timer != null)
+        {
+            timer.enabled = false; //Timer will start when leaving TimerTrigger
+        }
     }
 
     void Update()
@@ -46,7 +58,7 @@ public class PlayerController : MonoBehaviour
     private void ResetPlayer()
     {
         rb.velocity = Vector3.zero; // Reset velocity to avoid carrying momentum
-        transform.position = startPosition;
+        transform.position = startPosition + new Vector3(0, 10f, 0); // Respawn player slightly above
     }
 
     // check if player is landed
