@@ -11,9 +11,12 @@ public class CameraController : MonoBehaviour
     public GameObject player;
     public float turnSpeed = 4f;
 
+    public bool isInverted = false; // Toggle in the Inspector
+
     // Start is called before the first frame update
     void Start()
     {
+        isInverted = false; // Ensure it's always unchecked at game start
         trsf = GetComponent<Transform>();
         offset = trsf.position - player.transform.position;
     }
@@ -21,9 +24,15 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float mouseX = Input.GetAxis("Mouse X") * turnSpeed;
+        float mouseY = Input.GetAxis("Mouse Y") * turnSpeed;
+
+        // Apply Y-axis inversion if enabled
+        float invertedMouseY = isInverted ? -mouseY : mouseY;
+
         // Rotate the camera base on mouse mouvement
-        offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * turnSpeed, Vector3.up) *
-            Quaternion.AngleAxis(Input.GetAxis("Mouse Y") * turnSpeed, Vector3.left) * offset;
+        offset = Quaternion.AngleAxis(mouseX, Vector3.up) * 
+            Quaternion.AngleAxis(mouseY, Vector3.left) * offset;
         
         // Update camera position
         trsf.position = player.transform.position + offset;
