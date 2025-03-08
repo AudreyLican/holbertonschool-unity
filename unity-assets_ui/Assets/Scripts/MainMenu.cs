@@ -12,6 +12,9 @@ public class MainMenu : MonoBehaviour
 
     public void Options()
     {
+        // Save the current scene name before opening options
+        PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
+
         SceneManager.LoadScene("Options");
     }
 

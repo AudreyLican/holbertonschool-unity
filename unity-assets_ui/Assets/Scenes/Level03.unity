@@ -3988,6 +3988,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 7484424161054195416}
   turnSpeed: 4
+  isInverted: 0
 --- !u!1 &5436497349744245366
 GameObject:
   m_ObjectHideFlags: 0
