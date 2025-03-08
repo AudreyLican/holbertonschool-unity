@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class WinTrigger : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject winCanvas; // Reference to the WinCanvas
+    public Timer timer; // Reference to the Timer script
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            // Activate WinCanvas
+            winCanvas.SetActive(true);
+
+            // Call the Win method in Timer to display the final time
+            timer.Win();
+        }
     }
 }
