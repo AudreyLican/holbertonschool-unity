@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 117104149}
   - component: {fileID: 117104148}
   - component: {fileID: 117104147}
+  - component: {fileID: 117104151}
   m_Layer: 5
   m_Name: MenuCanvas
   m_TagString: Untagged
@@ -230,6 +231,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &117104151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117104146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62e3238c8ef911440b7ee434219fae93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &376076021
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,7 +527,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 406807035}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 117104151}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: LevelSelect
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &406807035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -711,7 +736,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 463922731}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 117104151}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: LevelSelect
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &463922731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1100,7 +1137,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1394334550}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 117104151}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: LevelSelect
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1394334550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1546,6 +1595,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExitButton
       objectReference: {fileID: 0}
+    - target: {fileID: 3686929155663296031, guid: 989584d5b75caa3458f2c90f2ffc8b6c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 117104151}
     - target: {fileID: 7799729062540282728, guid: 989584d5b75caa3458f2c90f2ffc8b6c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1728,6 +1781,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8198609716509863853, guid: 8a31a6045d2de99448dd6d00ad488851, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 117104151}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
