@@ -58,8 +58,10 @@ public class PlayerController : MonoBehaviour
         // Jump
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
+            Jump();
+            /**
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isGrounded = false; // Set isGrounded to false after jumping
+            isGrounded = false; // Set isGrounded to false after jumping**/
         }
 
 
@@ -83,6 +85,13 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("isRunning", false);
         }
+    }
+
+    private void Jump()
+    {
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        isGrounded = false;
+        animator.SetTrigger("Jump");
     }
 
 
