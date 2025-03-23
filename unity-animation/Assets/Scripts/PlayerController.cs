@@ -19,20 +19,20 @@ public class PlayerController : MonoBehaviour
     private Animator animator; // Animator ref to control animations
 
     // For running detection
-    private float speedThreshold = 0.1f; // Threshold speed to consider as running
+    private float speedThreshold = 0.1f; // speed to consider as running
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        startPosition = transform.position; // Store the initial poisiton
+        startPosition = transform.position; // Store the initial position
 
         // Get the Timer component
         timer = GetComponent<Timer>();
 
-        // Ensure timer is desabled at start
+        // Ensure timer is disabled at start
         if (timer != null)
         {
-            timer.enabled = false; //Timer will start when leaving TimerTrigger
+            timer.enabled = false; // Timer will start when leaving TimerTrigger
         }
 
         // Get the Animator component
@@ -45,25 +45,26 @@ public class PlayerController : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        // Calculate movement vector
+        /// Calculate movement vector
         Vector3 move = new Vector3(x, 0.0f, z) * speed;
 
         // Move the player
         rb.MovePosition(transform.position + move * Time.deltaTime);
 
-        // Update the running animation based on movement speed
-        UpdateRunningAnimation(move.magnitude);
-
+        // Update animations based on movement
+        UpdateAnimations(move.magnitude);
 
         // Jump
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             Jump();
-            /**
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isGrounded = false; // Set isGrounded to false after jumping**/
         }
 
+        // Falling detection: Only set falling if not grounded
+        if (!isGrounded && rb.velocity.y < -1f)
+        {
+            animator.SetBool("isFalling", true);
+        }
 
         // Check if the player has fallen below the threshold
         if (transform.position.y < fallThreshold)
@@ -73,17 +74,22 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    // Update the running animation based on player movement speed
-    private void UpdateRunningAnimation(float moveMagnitude)
+    // Update animations based on movement and jumping
+    private void UpdateAnimations(float moveMagnitude)
     {
-        // If the player is moving and exceeds the threshold speed, set IsRunning to true
-        if (moveMagnitude > speedThreshold)
+        if (animator == null) return; // Prevent NullReferenceException
+
+        // Running animation
+        animator.SetBool("isRunning", moveMagnitude > speedThreshold);
+
+        // Handle falling transition correctly
+        if (!isGrounded)
         {
-            animator.SetBool("isRunning", true);
+            animator.SetBool("isFalling", rb.velocity.y < -1f);
         }
         else
         {
-            animator.SetBool("isRunning", false);
+            animator.SetBool("isFalling", false); // Stop falling when on the ground
         }
     }
 
@@ -91,7 +97,12 @@ public class PlayerController : MonoBehaviour
     {
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         isGrounded = false;
-        animator.SetTrigger("Jump");
+
+        if (animator != null)
+        {
+            animator.SetTrigger("Jump");
+            animator.SetBool("isFalling", false); // Prevent immediate falling animation
+        }
     }
 
 
@@ -106,10 +117,17 @@ public class PlayerController : MonoBehaviour
     // check if player is landed
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Ground"))
+        isGrounded = true;
+
+        if (animator != null)
         {
-            // Reset isGrounded when player touches the ground
-            isGrounded = true;
+            animator.SetBool("isFalling", false); // Stop falling animation
+
+            // If player was falling, trigger impact animation
+            if (rb.velocity.y < -5f)
+            {
+                animator.SetTrigger("FallingFlatImpact");
+            }
         }
     }
 }
